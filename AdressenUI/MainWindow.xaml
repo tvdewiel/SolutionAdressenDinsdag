@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdressenUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Straatnaam Beheerder" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Source File" Margin="5"/>
+        <Button Grid.Row="0" Grid.Column="1" Content="Open Source File" Margin="5" Click="SourceFileButton_Click"/>
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="SourceFileTextBox"/>
+        <ListBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="ZipListBox"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="DestinationFolder" Margin="5"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="Open Destination Folder" Margin="5" Click="DestinationFolderButton_Click"/>
+        <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Name="DestinationFolderTextBox"/>
+        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" Content="Execute" Click="ExecuteButton_Click" />
     </Grid>
 </Window>
