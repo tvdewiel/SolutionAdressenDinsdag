@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AdressenBL.Model.Gemeente">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAAAAAAAAABABAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Model\Gemeente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdressenBL.Model.Provincie">
+    <Position X="2.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAEAAAAAAAABAAAAAAEAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Model\Provincie.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="gemeentes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
