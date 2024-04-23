@@ -17,6 +17,15 @@ namespace AdressenBL.Managers
             this.processor = processor;
         }
 
+        public bool IsFolderEmpty(string folderName)
+        {
+            try
+            {
+                return processor.IsFolderEmpty(folderName);
+            }
+            catch(Exception ex) { throw new FileManagerException($"IsFolderEmpty - {ex.Message}"); }
+        }
+
         public void CheckZipFile(string zipFileName,List<string> fileNames)
         {
             try
@@ -64,6 +73,15 @@ namespace AdressenBL.Managers
             catch (Exception ex) { throw new FileManagerException($"CheckZipFile - {ex.Message}", ex); }
         }
 
+        public void CleanFolder(string folderName)
+        {
+            try
+            {
+                processor.ClearFolder(folderName);
+            }
+            catch (Exception ex) { throw new FileManagerException($"CleanFolder - {ex.Message}"); }
+        }
+
         public List<string> GetFilesFromZip(string zipFile)
         {
             try
@@ -74,6 +92,22 @@ namespace AdressenBL.Managers
             {
                 throw new FileManagerException($"GetFilesFromZip - {ex.Message}", ex);
             }
+        }
+
+        public List<string> ProcessZip(string zipFileName, string unzipFolder)
+        {
+            List<string> messages=new List<string>();
+            try
+            {
+                //unzip
+                processor.UnZip(zipFileName, unzipFolder);
+                //maken obj (lezen bestanden)
+
+                //schrijven folders/bestanden
+
+                //statistieken maken
+            }
+            catch(Exception ex) { throw new FileManagerException($"ProcessZip - {ex.Message}"); }
         }
     }
 }

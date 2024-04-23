@@ -10,5 +10,8 @@ namespace AdressenBL.Interfaces
     {
         List<string> GetFileNamesFromZip(string zipFile);
         List<string> GetFileNamesConfigInfoFromZip(string zipFile,string configFile);
+        bool IsFolderEmpty(string folderName);
+        void ClearFolder(string folderName);
+        void UnZip(string zipFileName, string unzipFolder);
     }
 }

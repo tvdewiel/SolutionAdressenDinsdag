@@ -10,6 +10,20 @@ namespace AdressenDL
 {
     public class FileProcessor : IFileProcessor
     {
+        public void ClearFolder(string folderName)
+        {
+            DirectoryInfo dir=new DirectoryInfo(folderName);
+            foreach(FileInfo fi in dir.GetFiles())
+            {
+                fi.Delete();
+            }
+            foreach(DirectoryInfo di in dir.GetDirectories())
+            {
+                ClearFolder(di.FullName);
+                di.Delete();
+            }
+        }
+
         public List<string> GetFileNamesConfigInfoFromZip(string fileName, string configName)
         {
             using (ZipArchive archive = ZipFile.OpenRead(fileName))
@@ -42,6 +56,17 @@ namespace AdressenDL
             {
                 return zipFile.Entries.Select(x=>x.FullName).ToList();
             }
+        }
+
+        public bool IsFolderEmpty(string folderName)
+        {
+            DirectoryInfo dir = new DirectoryInfo(folderName);
+            return (dir.GetFiles().Length == 0 && dir.GetDirectories().Length == 0);
+        }
+
+        public void UnZip(string zipFileName, string unzipFolder)
+        {
+           ZipFile.ExtractToDirectory(zipFileName, unzipFolder);
         }
     }
 }
