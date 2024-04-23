@@ -1,5 +1,6 @@
 ﻿using AdressenBL.Exceptions;
 using AdressenBL.Interfaces;
+using AdressenBL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace AdressenBL.Managers
             catch(Exception ex) { throw new FileManagerException($"IsFolderEmpty - {ex.Message}"); }
         }
 
-        public void CheckZipFile(string zipFileName,List<string> fileNames)
+        public Dictionary<string,string> CheckZipFile(string zipFileName,List<string> fileNames)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace AdressenBL.Managers
                 "link_StreetName_Municipality",
                 "link_Province_MunicipalityNames",
                 "provinces"
-            };
+                };
                 Dictionary<string, string> errors = new();
                 if (!fileNames.Contains("FileNamesConfig.txt"))
                     throw new ZipFileManagerException("FileNamesConfig.txt is missing");
@@ -68,6 +69,7 @@ namespace AdressenBL.Managers
                     }
                     throw ex;
                 }
+                return map;
             }
             catch (ZipFileManagerException) { throw; }
             catch (Exception ex) { throw new FileManagerException($"CheckZipFile - {ex.Message}", ex); }
@@ -102,12 +104,28 @@ namespace AdressenBL.Managers
                 //unzip
                 processor.UnZip(zipFileName, unzipFolder);
                 //maken obj (lezen bestanden)
-
+                List<string> files=GetFilesFromZip(zipFileName);
+                List<Provincie> provincies=processor.ReadFiles(CheckZipFile(zipFileName,files), unzipFolder);
                 //schrijven folders/bestanden
-
+                processor.WriteResults(unzipFolder, provincies);
                 //statistieken maken
+                var stats = CalculateStatistics(provincies);
+                messages.AddRange(stats.Provincies.Select(x=>$"{x.Key} : {x.Value} gemeenten").ToList());
+                messages.AddRange(stats.Gemeentes.Select(x=>$"{x.Key} : {x.Value} straten").ToList());
+                return messages;
             }
             catch(Exception ex) { throw new FileManagerException($"ProcessZip - {ex.Message}"); }
+        }
+
+        private Statistieken CalculateStatistics(List<Provincie> provincies)
+        {
+            var statistieken=new Statistieken();
+            statistieken.Provincies = provincies.ToDictionary(g => g.Naam, g => g.GeefGemeentes().Count());
+            statistieken.Gemeentes=provincies
+                .SelectMany(list=>list.GeefGemeentes(),(p,m)=>new {name=(p.Naam,m.Naam),count=m.GeefStraatNamen().Count})
+                .OrderBy(g => g.name)
+                .ToDictionary(x=>x.name,x=>x.count);
+            return statistieken;
         }
     }
 }

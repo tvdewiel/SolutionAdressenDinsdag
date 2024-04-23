@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdressenBL.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace AdressenBL.Interfaces
         bool IsFolderEmpty(string folderName);
         void ClearFolder(string folderName);
         void UnZip(string zipFileName, string unzipFolder);
+        List<Provincie> ReadFiles(Dictionary<string, string> dictionary, string unzipFolder);
+        void WriteResults(string unzipFolder, List<Provincie> provincies);
     }
 }

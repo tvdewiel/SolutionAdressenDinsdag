@@ -11,10 +11,16 @@ namespace AdressenBL.Model
         public int Id { get; set; }
         public string Naam { get; set; }
         private SortedSet<string> straatNamen =new SortedSet<string>();
+
+        public Gemeente(int id)
+        {
+            Id = id;
+        }
+
         public IReadOnlyList<string> GeefStraatNamen()=> straatNamen.ToList();
         public void VoegStraatnaamToe(string straatnaam)
         {
             straatNamen.Add(straatnaam);
-        }
+        }       
     }
 }
